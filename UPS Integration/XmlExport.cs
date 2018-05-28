@@ -84,6 +84,7 @@ namespace UPS_Integration
                 ErrorLogger.Logger.OpenLevel("Downloading data", false);
 
                 #region Downloading data
+
                 int? currentId = Convert.ToInt32(parameters["CURRENTID"]);
                 if (!currentId.HasValue)
                     throw new Exception("No ID of Shipment document");// (string.Format(Properties.Resources.ColumnNotContainsValue, "PRODUCTCODE"));
