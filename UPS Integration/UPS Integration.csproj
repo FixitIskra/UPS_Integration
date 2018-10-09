@@ -30,20 +30,25 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Intense.API">
-      <HintPath>Q:\Intense\!Intense API\Projects\2016.1.0.0\Intense.API.dll</HintPath>
+    <Reference Include="Intense.API, Version=2016.1.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\2018.2.0.0\Intense.API.dll</HintPath>
     </Reference>
-    <Reference Include="Intense.Common">
-      <HintPath>Q:\Intense\!Intense API\Projects\2017.1.0.0\Intense.Common.dll</HintPath>
+    <Reference Include="Intense.Common, Version=2016.1.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\2018.2.0.0\Intense.Common.dll</HintPath>
     </Reference>
-    <Reference Include="Intense.Core">
-      <HintPath>Q:\Intense\!Intense API\Projects\2017.1.0.0\Intense.Core.dll</HintPath>
+    <Reference Include="Intense.Core, Version=2016.1.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\2018.2.0.0\Intense.Core.dll</HintPath>
     </Reference>
-    <Reference Include="Intense.Workflow">
-      <HintPath>Q:\Intense\!Intense API\Projects\2017.1.0.0\Intense.Workflow.dll</HintPath>
+    <Reference Include="Intense.Workflow, Version=2016.1.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\2018.2.0.0\Intense.Workflow.dll</HintPath>
     </Reference>
-    <Reference Include="Intense.Workflow.Core">
-      <HintPath>Q:\Intense\!Intense API\Projects\2017.1.0.0\Intense.Workflow.Core.dll</HintPath>
+    <Reference Include="Intense.Workflow.Core, Version=2016.1.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\2018.2.0.0\Intense.Workflow.Core.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />

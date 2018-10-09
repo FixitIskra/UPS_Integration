@@ -1,15 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Xml.Linq;
-
-using Intense.Common;
 using System.Threading;
 using System.Windows.Forms;
-using Intense.Common.Enums;
 using System.Data;
+
+using Intense.Common;
+using Intense.Common.Enums;
+
 
 namespace UPS_Integration
 {
@@ -29,6 +28,7 @@ namespace UPS_Integration
             if (logID < 0)
                 logID = Intense.Common.ErrorLogger.CreateNewLogger();
             #endregion
+
             parameters.Add("LogID", (object)logID);
 
             try
@@ -36,6 +36,13 @@ namespace UPS_Integration
                 Intense.Common.ErrorLogger.Logger.Init(logID, Intense.Common.Enums.LogProcessType.Other, true, string.Format("UPS Exporting XML"), 0);
                 if (!parameters.ContainsKey("CURRENTID"))
                     throw new Exception("No CurrentID");
+           /*     for(int i = 0; i < parameters.Count; i++)
+                {
+                    ErrorLogger.Logger.LogEvent(string.Format("TEST: {0} - {1}", parameters.ElementAt(i).Key, parameters.ElementAt(i).Value), (ErrorPriority)1, string.Empty);
+                }
+
+                ErrorLogger.Logger.LogEvent(string.Format("TEST - Current id: {0}", parameters["CURRENTID"]), (ErrorPriority)1, string.Empty);
+                */                
 
                 if (Context.Instance().AgentMode)
                 {
@@ -54,20 +61,17 @@ namespace UPS_Integration
                         Thread.Sleep(100);
                     }
                 }
+                return true;
             }
             catch (Exception ex)
             {
-                //throw new NotImplementedException("JAJAJA", ex);
                 ErrorLogger.Logger.LogEvent(ex, (ErrorPriority)3, string.Empty);
+                return false;
             }
             finally
             {
-                // Intense.Common.ErrorLogger.Logger.LogEvent("Final", Intense.Common.ErrorPriority.Critical, string.Empty);
-                ErrorLogger.Logger.Close(logID, (LogProcessType)0, true);
-                //throw new Exception();
+                ErrorLogger.Logger.Close(logID, (LogProcessType)1, true);
             }
-
-            return true;
         }
 
 
@@ -88,6 +92,16 @@ namespace UPS_Integration
                 int? currentId = Convert.ToInt32(parameters["CURRENTID"]);
                 if (!currentId.HasValue)
                     throw new Exception("No ID of Shipment document");// (string.Format(Properties.Resources.ColumnNotContainsValue, "PRODUCTCODE"));
+                if(currentId == 0)
+                {
+                    int? taskId = Convert.ToInt32(parameters["CURRENTTASKID"]);
+                    string sql2 = string.Format(@"SELECT Tsk_DocID FROM Tasks WHERE Tsk_ID = {0}", taskId);
+                    currentId = Convert.ToInt32(Intense.Common.SQL.GetSQLQueryResult(sql2));
+                }
+
+                if (currentId == 0)
+                    throw new Exception("CurrentID = 0");
+
                 ErrorLogger.Logger.LogEvent(string.Format("Current id: {0}", currentId), (ErrorPriority)1, string.Empty);
 
                 //MessageBox.Show("Current ID: " + currentId ); //TEST
@@ -104,9 +118,10 @@ SELECT * FROM IG_FIXIT_UPSDataCollection ({0})
                     ErrorLogger.Logger.LogEvent(string.Format("SQL result amount: {0}", sqlResult.Rows.Count), (ErrorPriority)1, string.Empty);
                 //MessageBox.Show("SQL result amount: " + sqlResult.Rows.Count); //TEST
 
+            
                 if (sqlResult == null || sqlResult.Rows.Count == 0)
                     throw new Exception("No data in table");
-                ErrorLogger.Logger.CloseLevel();
+                
                 #endregion
 
                 
@@ -345,6 +360,11 @@ SELECT * FROM IG_FIXIT_UPSDataCollection ({0})
             catch(Exception ex)
             {
                 ErrorLogger.Logger.LogEvent(ex, (ErrorPriority)3, string.Empty);
+                
+            }
+            finally
+            {
+                ErrorLogger.Logger.CloseLevel();
             }
 
         }
